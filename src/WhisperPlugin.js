@@ -59,7 +59,7 @@ export default class WhisperPlugin extends FlexPlugin {
       "WQ092939f3a94214a3fc7d49cd165c1ad6": "+14706604187", //KUCK Español	
       "WQ2d294f39d1004932f25c195a96bba9cd": "+14708236928", //Cruz GA
       "WQ16e0637f22107ec874d784e8343a279f": "+14804701418", //Cruz AZ
-      "WQe83cbb6ac0deb74f27166a392dcdde45": "+14709446317", //Ultim Holidays SMS
+      "WQe83cbb6ac0deb74f27166a392dcdde45": "+14709446317", //Ultim Holidays
       default: "+14709448845"  // Caller ID por defecto para todas las demás colas
     };
 
