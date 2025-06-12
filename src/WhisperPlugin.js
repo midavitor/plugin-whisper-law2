@@ -31,6 +31,7 @@ export default class WhisperPlugin extends FlexPlugin {
     let colteSound = new Audio("https://assets-7475.twil.io/coltefinanciera%20ring.mp3");
     let ultimHoly = new Audio("https://assets-7475.twil.io/Ultim%20Holidays%20campaign.mp3");
     let ultimHolySms = new Audio("https://assets-7475.twil.io/Ultim%20Holidays%20campaign%20sms%20simply.mp3");
+    let balanceSound = new Audio("https://assets-7475.twil.io/Balance%20calling.mp3");
     
     //Activar loo para que el ring se repita 
     alertSound.loop = true;
@@ -45,6 +46,7 @@ export default class WhisperPlugin extends FlexPlugin {
     colteSound.loop = true;
     ultimHoly.loop = true;
     ultimHolySms.loop = false;
+    balanceSound.looo=true;
 
 
     const resStatus = ["accepted","canceled","rejected","rescinded","timeout"];
@@ -60,14 +62,16 @@ export default class WhisperPlugin extends FlexPlugin {
       "WQ2d294f39d1004932f25c195a96bba9cd": "+14708236928", //Cruz GA
       "WQ16e0637f22107ec874d784e8343a279f": "+14804701418", //Cruz AZ
       "WQe83cbb6ac0deb74f27166a392dcdde45": "+14709446317", //Ultim Holidays
+      "WQ0ca44bd2a3a0efd6cbac881d794ffbec": "+14709447020", //Balance Dentistry
       default: "+14709448845"  // Caller ID por defecto para todas las demás colas
     };
 
     // Función para obtener el Caller ID basado en el ID de la cola
+// Función para obtener el Caller ID basado en el ID de la cola
     const getCallerId = (queueSid) => {
       if (queueSid) {
-        console.log(`Queue SID: ${queueSid}`); // Log para ver el SID de la cola
-        return queueSid === "WQ30f904e2e969ce536e4d305bf7189298" ? callerIds["WQ30f904e2e969ce536e4d305bf7189298"] : callerIds.default;
+        console.log(`Queue SID: ${queueSid}`); // Log para depuración
+        return callerIds[queueSid] || callerIds.default;
       }
       console.log("No queue SID found, using default Caller ID.");
       return callerIds.default;
@@ -151,7 +155,14 @@ export default class WhisperPlugin extends FlexPlugin {
       )
       {
         ultimHoly.play();
-      } else if (
+      }else if (
+        reservation.task.taskChannelUniqueName === "voice" &&
+        reservation.task.attributes.direction === "inbound" && 
+        reservation.task.workflowName === "Balance" 
+      )
+      {
+        balanceSound.play(); 
+      }else if (
         reservation.task.taskChannelUniqueName === "sms" &&
         reservation.task.attributes.direction === "inbound" && 
         reservation.task.workflowName === "Ultim Holidays SMS" 
@@ -173,6 +184,7 @@ export default class WhisperPlugin extends FlexPlugin {
           colteSound.pause();
           ultimHoly.pause();
           ultimHolySms.pause();
+          balanceSound.pause();
         });
       });
     });
