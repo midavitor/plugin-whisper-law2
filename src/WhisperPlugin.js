@@ -32,6 +32,7 @@ export default class WhisperPlugin extends FlexPlugin {
     let ultimHoly = new Audio("https://assets-7475.twil.io/Ultim%20Holidays%20campaign.mp3");
     let ultimHolySms = new Audio("https://assets-7475.twil.io/Ultim%20Holidays%20campaign%20sms%20simply.mp3");
     let balanceSound = new Audio("https://assets-7475.twil.io/Balance%20calling.mp3");
+    let dominguezSound = new Audio("https://assets-7475.twil.io/Dominguez_calling.mp3");
     
     //Activar loo para que el ring se repita 
     alertSound.loop = true;
@@ -47,6 +48,7 @@ export default class WhisperPlugin extends FlexPlugin {
     ultimHoly.loop = true;
     ultimHolySms.loop = false;
     balanceSound.looo=true;
+    dominguezSound.loop=true;
 
 
     const resStatus = ["accepted","canceled","rejected","rescinded","timeout"];
@@ -63,6 +65,7 @@ export default class WhisperPlugin extends FlexPlugin {
       "WQ16e0637f22107ec874d784e8343a279f": "+14804701418", //Cruz AZ
       "WQe83cbb6ac0deb74f27166a392dcdde45": "+14709446317", //Ultim Holidays
       "WQ0ca44bd2a3a0efd6cbac881d794ffbec": "+14709447020", //Balance Dentistry
+      "WQ7061ea2d88ea0064eddb9c519584d068": "+14708239838", //Dominguez Chiropractic
       default: "+14709448845"  // Caller ID por defecto para todas las demás colas
     };
 
@@ -163,6 +166,13 @@ export default class WhisperPlugin extends FlexPlugin {
       {
         balanceSound.play(); 
       }else if (
+        reservation.task.taskChannelUniqueName === "voice" &&
+        reservation.task.attributes.direction === "inbound" && 
+        reservation.task.workflowName === "Dominguez" 
+      )
+      {
+        dominguezSound.play(); 
+      }else if (
         reservation.task.taskChannelUniqueName === "sms" &&
         reservation.task.attributes.direction === "inbound" && 
         reservation.task.workflowName === "Ultim Holidays SMS" 
@@ -185,6 +195,7 @@ export default class WhisperPlugin extends FlexPlugin {
           ultimHoly.pause();
           ultimHolySms.pause();
           balanceSound.pause();
+          dominguezSound.pause();
         });
       });
     });
