@@ -33,6 +33,8 @@ export default class WhisperPlugin extends FlexPlugin {
     let ultimHolySms = new Audio("https://assets-7475.twil.io/Ultim%20Holidays%20campaign%20sms%20simply.mp3");
     let balanceSound = new Audio("https://assets-7475.twil.io/Balance%20calling.mp3");
     let dominguezSound = new Audio("https://assets-7475.twil.io/Dominguez_calling.mp3");
+    let barringerEnglish = new Audio("https://assets-7475.twil.io/Barringer%20Law%20English.mp3");
+    let barringerEspanol = new Audio("https://assets-7475.twil.io/Barringer%20Law%20Espanol.mp3");
     
     //Activar loo para que el ring se repita 
     alertSound.loop = true;
@@ -47,9 +49,10 @@ export default class WhisperPlugin extends FlexPlugin {
     colteSound.loop = true;
     ultimHoly.loop = true;
     ultimHolySms.loop = false;
-    balanceSound.looo=true;
+    balanceSound.loop=true;
     dominguezSound.loop=true;
-
+    barringerEnglish.loop=true;
+    barringerEspanol.loop=true;
 
     const resStatus = ["accepted","canceled","rejected","rescinded","timeout"];
 
@@ -66,11 +69,12 @@ export default class WhisperPlugin extends FlexPlugin {
       "WQe83cbb6ac0deb74f27166a392dcdde45": "+14709446317", //Ultim Holidays
       "WQ0ca44bd2a3a0efd6cbac881d794ffbec": "+14709447020", //Balance Dentistry
       "WQ7061ea2d88ea0064eddb9c519584d068": "+14708239838", //Dominguez Chiropractic
+      "WW5812311d3fcbc9187ea50f583f435d5e": "+17205944342", //Barringer Law English
+      "WWf79913f75c1c81c90e991aaacea37ac5": "+17205130841", //Barringer Law Español
       default: "+14709448845"  // Caller ID por defecto para todas las demás colas
     };
 
     // Función para obtener el Caller ID basado en el ID de la cola
-// Función para obtener el Caller ID basado en el ID de la cola
     const getCallerId = (queueSid) => {
       if (queueSid) {
         console.log(`Queue SID: ${queueSid}`); // Log para depuración
@@ -140,7 +144,7 @@ export default class WhisperPlugin extends FlexPlugin {
       }  else if (
         reservation.task.taskChannelUniqueName === "voice" &&
         reservation.task.attributes.direction === "inbound" && 
-        reservation.task.workflowName === "Cruz GA" 
+        reservation.task.workflowName === "Cruz AZ" 
       )
       {
         cruzAZSound.play();
@@ -173,6 +177,20 @@ export default class WhisperPlugin extends FlexPlugin {
       {
         dominguezSound.play(); 
       }else if (
+        reservation.task.taskChannelUniqueName === "voice" &&
+        reservation.task.attributes.direction === "inbound" && 
+        reservation.task.workflowName === "Barringer English" 
+      )
+      {
+        barringerEnglish.play(); 
+      }else if (
+        reservation.task.taskChannelUniqueName === "voice" &&
+        reservation.task.attributes.direction === "inbound" && 
+        reservation.task.workflowName === "Barringer Español" 
+      )
+      {
+        barringerEspanol.play(); 
+      }else if (
         reservation.task.taskChannelUniqueName === "sms" &&
         reservation.task.attributes.direction === "inbound" && 
         reservation.task.workflowName === "Ultim Holidays SMS" 
@@ -196,6 +214,8 @@ export default class WhisperPlugin extends FlexPlugin {
           ultimHolySms.pause();
           balanceSound.pause();
           dominguezSound.pause();
+          barringerEnglish.pause();
+          barringerEspanol.pause();
         });
       });
     });
