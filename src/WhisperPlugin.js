@@ -28,6 +28,7 @@ export default class WhisperPlugin extends FlexPlugin {
     let schnyderSound = new Audio ("https://magnolia-pike-9849.twil.io/assets/Schnyder_calling.mp3");
     let cruzGASound = new Audio("https://assets-7475.twil.io/Cruz_GA_calling.mp3");
     let cruzAZSound = new Audio("https://assets-7475.twil.io/Cruz_AZ_calling.mp3");
+    let cruzTucson = new Audio("https://assets-7475.twil.io/Cruz%20Tucson%20calling.mp3")
     let colteSound = new Audio("https://assets-7475.twil.io/coltefinanciera%20ring.mp3");
     let ultimHoly = new Audio("https://assets-7475.twil.io/Ultim%20Holidays%20campaign.mp3");
     let ultimHolySms = new Audio("https://assets-7475.twil.io/Ultim%20Holidays%20campaign%20sms%20simply.mp3");
@@ -46,6 +47,7 @@ export default class WhisperPlugin extends FlexPlugin {
     schnyderSound.loop = true;
     cruzGASound.loop = true;
     cruzAZSound.loop = true;
+    cruzTucson.loop = true;
     colteSound.loop = true;
     ultimHoly.loop = true;
     ultimHolySms.loop = false;
@@ -66,6 +68,7 @@ export default class WhisperPlugin extends FlexPlugin {
       "WQ092939f3a94214a3fc7d49cd165c1ad6": "+14706604187", //KUCK Español	
       "WQ2d294f39d1004932f25c195a96bba9cd": "+14708236928", //Cruz GA
       "WQ16e0637f22107ec874d784e8343a279f": "+14804701418", //Cruz AZ
+      "WWfb64d3687e2d1b515d17894e1d2b0d33": "+15208440760", //Cruz Tucson
       "WQe83cbb6ac0deb74f27166a392dcdde45": "+14709446317", //Ultim Holidays
       "WQ0ca44bd2a3a0efd6cbac881d794ffbec": "+14709447020", //Balance Dentistry
       "WQ7061ea2d88ea0064eddb9c519584d068": "+14708239838", //Dominguez Chiropractic
@@ -148,7 +151,14 @@ export default class WhisperPlugin extends FlexPlugin {
       )
       {
         cruzAZSound.play();
-      }else if (
+      }  else if (
+        reservation.task.taskChannelUniqueName === "voice" &&
+        reservation.task.attributes.direction === "inbound" && 
+        reservation.task.workflowName === "Cruz Tucson" 
+      )
+      {
+        cruzTucson.play();
+      } else if (
         reservation.task.taskChannelUniqueName === "voice" &&
         reservation.task.attributes.direction === "inbound" && 
         reservation.task.workflowName === "Coltefinanciera" 
@@ -209,6 +219,7 @@ export default class WhisperPlugin extends FlexPlugin {
           schnyderSound.pause();
           cruzAZSound.pause();
           cruzGASound.pause();
+          cruzTucson.pause();
           colteSound.pause();
           ultimHoly.pause();
           ultimHolySms.pause();
